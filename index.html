@@ -19,37 +19,42 @@
             </div>
         </div>
         <div class="row">
+            <div class="display-2 date">
+
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-4">
                 <div class="card">
                     <img src="./app/img/20190508_163002.jpg" class="card-img-top" alt="Photo of Eleanor">
                     <div class="card-body">
-                      <h5 class="card-title">Clementine</h5>
-                      <p class="card-text">Walks: <span class="walks-clementine">0</span></p>
-                      <button class="btn btn-primary clementine">Click me to add a walk</button>
+                        <h5 class="card-title">Clementine</h5>
+                        <p class="card-text">Walks: <span class="walks-clementine">0</span></p>
+                        <button class="btn btn-primary clementine">Click me to add a walk</button>
                     </div>
-                  </div>
+                </div>
             </div>
             <div class="col-lg-4">
                 <div class="card">
                     <img src="./app/img/IMG-20211016-WA0000.jpg" class="card-img-top" alt="Photo of Eleanor">
                     <div class="card-body">
-                      <h5 class="card-title">Montgomery</h5>
-                      <p class="card-text">Walks: <span class="walks-montgomery">0</span></p>
-                      <button class="btn btn-primary montgomery">Click me to add a walk</button>
+                        <h5 class="card-title">Montgomery</h5>
+                        <p class="card-text">Walks: <span class="walks-montgomery">0</span></p>
+                        <button class="btn btn-primary montgomery">Click me to add a walk</button>
                     </div>
-                  </div>
+                </div>
             </div>
             <div class="col-lg-4">
                 <div class="card">
                     <img src="./app/img/20221127_105050.jpg" class="card-img-top" alt="Photo of Eleanor">
                     <div class="card-body">
-                      <h5 class="card-title">Eleanor</h5>
-                      <p class="card-text">Walks: <span class="walks-eleanor">0</span></p>
-                      <button class="btn btn-primary eleanor">Click me to add a walk</button>
+                        <h5 class="card-title">Eleanor</h5>
+                        <p class="card-text">Walks: <span class="walks-eleanor">0</span></p>
+                        <button class="btn btn-primary eleanor">Click me to add a walk</button>
                     </div>
-                  </div>
+                </div>
             </div>
-            
+
         </div>
     </div>
 
@@ -125,9 +130,26 @@
     function setWalks(num, dogName) {
         walks = num;
         var dogSelector = ".walks-" + dogName
-        $(dogSelector).text(num);
 
+        if (num == null) {
+            $(dogSelector).text("0");
 
+        } else {
+            $(dogSelector).text(num);
+        }
+    }
+
+   
+    function checkDate(){
+        var d = new Date();
+        var day = d.getDay();
+        var month = d.getMonth()+1;
+        if (day == 0){
+            $(".date").text('Week of '+ month+"/"+d.getDate())
+        } else{
+            var sunday = d.getDate()-d.getDay();
+            $(".date").text('Week of '+ month+"/"+sunday) 
+        }
     }
 
 
@@ -135,6 +157,7 @@
     getWalks("clementine");
     getWalks("montgomery");
     getWalks("eleanor");
+    checkDate();
     $(document).on("click", ".clementine", "clementine", addWalk);
     $(document).on("click", ".montgomery", "montgomery", addWalk);
     $(document).on("click", ".eleanor", "eleanor", addWalk);
