@@ -12,17 +12,50 @@
 </head>
 
 <body>
-    Clementine
-    <p class="walks-clementine" id="database">0</p>
+    <div class="container">
+        <div class="row">
+            <div class="display-1">
+                George Dog Walking Tracker
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <img src="./app/img/20190508_163002.jpg" class="card-img-top" alt="Photo of Eleanor">
+                    <div class="card-body">
+                      <h5 class="card-title">Clementine</h5>
+                      <p class="card-text">Walks: <span class="walks-clementine">0</span></p>
+                      <button class="btn btn-primary clementine">Click me to add a walk</button>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <img src="./app/img/IMG-20211016-WA0000.jpg" class="card-img-top" alt="Photo of Eleanor">
+                    <div class="card-body">
+                      <h5 class="card-title">Montgomery</h5>
+                      <p class="card-text">Walks: <span class="walks-montgomery">0</span></p>
+                      <button class="btn btn-primary montgomery">Click me to add a walk</button>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <img src="./app/img/20221127_105050.jpg" class="card-img-top" alt="Photo of Eleanor">
+                    <div class="card-body">
+                      <h5 class="card-title">Eleanor</h5>
+                      <p class="card-text">Walks: <span class="walks-eleanor">0</span></p>
+                      <button class="btn btn-primary eleanor">Click me to add a walk</button>
+                    </div>
+                  </div>
+            </div>
+            
+        </div>
+    </div>
 
-    <button class="clementine">Click me to add a walk</button>
-    <p>Montgomery</p>
-    <p class="walks-montgomery">0</p>
-    <button class="montgomery">Click me to add a walk</button>
 
-    <p>Eleanor</p>
-    <p class="walks-eleanor">0</p>
-    <button class="eleanor">Click me to add a walk</button>
+
+
 </body>
 
 
@@ -65,11 +98,11 @@
     var walks;
     function addWalk(event) {
         console.log(event);
-        
+
         const dogName = event.data
         var dogWalks = getWalks(dogName);
         dogWalks++;
-        set(ref(database, "dogs/"+dogName), {
+        set(ref(database, "dogs/" + dogName), {
             name: dogName,
             age: 8,
             walks: dogWalks
@@ -78,7 +111,7 @@
     }
 
     function getWalks(dogName) {
-        const walkCountRef = ref(database, 'dogs/'+dogName+'/walks');
+        const walkCountRef = ref(database, 'dogs/' + dogName + '/walks');
         var walks;
         onValue(walkCountRef, (snapshot) => {
             const data = snapshot.val();
@@ -91,10 +124,10 @@
 
     function setWalks(num, dogName) {
         walks = num;
-        var dogSelector = ".walks-"+dogName
+        var dogSelector = ".walks-" + dogName
         $(dogSelector).text(num);
 
-        
+
     }
 
 
