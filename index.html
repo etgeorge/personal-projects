@@ -115,6 +115,14 @@
 
     }
 
+    function resetWalks(dogName){
+        set(ref(database, "dogs/" + dogName), {
+            name: dogName,
+            age: 8,
+            walks: 0
+        })
+    }
+
     function getWalks(dogName) {
         const walkCountRef = ref(database, 'dogs/' + dogName + '/walks');
         var walks;
@@ -144,13 +152,58 @@
         var d = new Date();
         var day = d.getDay();
         var month = d.getMonth()+1;
-        if (day == 0){
-            $(".date").text('Week of '+ month+"/"+d.getDate())
-        } else{
-            var sunday = d.getDate()-d.getDay();
-            $(".date").text('Week of '+ month+"/"+sunday) 
-        }
+        var sunday = getSunday(d);
+        
+       
+        $(".date").text('Week of '+ month+"/"+sunday) 
+        
     }
+
+    function setSunday(){
+        var d = new Date();
+        var sunday = getSunday(d);
+        set(ref(database, "sunday"), {
+            day: sunday,
+            month: d.getMonth()
+        })
+    }
+
+    function getSunday(d){
+        var day = d.getDay(0);
+        var sunday;
+        if (day == 0){
+            sunday = day;
+        } else {
+            sunday = d.getDate()-d.getDay();
+        }
+        return sunday;
+    }
+
+    function resetCount(){
+        resetWalks("clementine");
+        resetWalks("montgomery");
+        resetWalks("eleanor");
+    }
+
+    function checkWeek(){
+        const weekRef = ref(database, 'sunday');
+        onValue(weekRef, (snapshot) => {
+            var data = snapshot.val();
+            var d = new Date();
+            var sunday = getSunday(d);
+
+            if (sunday != data.day){
+                resetCount();
+                setSunday();
+            }
+            if (d.getMonth() != data.month){
+                resetCount();
+                setSunday();
+            }
+        })
+    }
+
+    
 
 
 
@@ -158,6 +211,7 @@
     getWalks("montgomery");
     getWalks("eleanor");
     checkDate();
+    checkWeek();
     $(document).on("click", ".clementine", "clementine", addWalk);
     $(document).on("click", ".montgomery", "montgomery", addWalk);
     $(document).on("click", ".eleanor", "eleanor", addWalk);
